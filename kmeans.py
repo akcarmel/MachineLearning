@@ -4,9 +4,6 @@ import math
 import numpy as np
 import copy
 
-
-
-
 class Kmeans:
 
 	def __init__(self,given_map,num_iterations,K):
@@ -14,14 +11,15 @@ class Kmeans:
 		self.num_iterations = num_iterations
 		self.K = K
 		self.map = given_map
-		 
 		self.mapc = self.normalize(copy.deepcopy(given_map))
 		self.cosine_sum = 0.0
 
 	def normalize(self,a):
+
 		'''
 		L2 normalization of matrix a. Each row is ONE data point.
 		'''
+
 		dr = np.sqrt(np.sum(a*a, axis=1))
 		dr[dr==0,:] = 1.0
 		f=a/dr[:,np.newaxis]
@@ -34,13 +32,12 @@ class Kmeans:
 		'''
 
 		rand_indices = random.sample(range(self.map.shape[0]),self.K)
-		
 		centroids = self.map[rand_indices,:]
 		
-
 		return centroids
 	
 	def expectation(self,centroids):
+
 		'''
 		Assigns a centroid to every data point.  Each row is ONE data point.
 		'''
@@ -52,14 +49,10 @@ class Kmeans:
 		col_idx = obj_to_cluster
 		self.cosine_sum =  np.sum(CS[row_idx,col_idx])  #Only pick cosine values of assigned clusters.
 
-		
-
 		return obj_to_cluster
 
-
-		
-
 	def maximization(self,obj_to_cluster,centroids):
+
 		'''
 		Recalculates the Centroids
 		'''
@@ -68,7 +61,6 @@ class Kmeans:
 
 		for i in range(self.K):
 			z=obj_to_cluster == i
-			
 			if z.any():
 				counter += 1
 				centroids[counter,:] = np.mean(self.map[z,:],axis=0)
@@ -78,6 +70,7 @@ class Kmeans:
 		return centroids
 
 	def do_kmeans(self):
+
 		'''
 		Runs expectation, maximization one after the other
 		'''
@@ -86,9 +79,7 @@ class Kmeans:
 		prev_centroids = copy.deepcopy(centroids)
 		
 		for i in range(self.num_iterations):
-
 			
-
 			print "kmeans iteration",i
 
 			obj_to_cluster=self.expectation(centroids)
@@ -98,7 +89,4 @@ class Kmeans:
 				break
 			prev_centroids = copy.deepcopy(centroids)
 			
-
-
-
 		return obj_to_cluster,self.cosine_sum
