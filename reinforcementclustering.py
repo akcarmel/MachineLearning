@@ -16,9 +16,8 @@ class ReinforcementClustering:
 		self.num_doc_cluster = num_doc_cluster
 		self.num_word_cluster = num_word_cluster
 
-		
-
 	def do_reinforcement(self):
+
 		'''
 		Implements reinforcement clustering by alternating between word and doc clusters for given number of iterations.
 		'''
@@ -38,9 +37,7 @@ class ReinforcementClustering:
 			flag = False
 			wmap = self.reconstruct(flag,cid_d)
 
-		return cid_d,cs_d,cs_w
-
-
+		return cid_d,cid_w,cs_d,cs_w
 
 	def reconstruct(self,flag,cid):
 
